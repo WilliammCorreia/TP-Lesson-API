@@ -1,5 +1,6 @@
 import fileRepository from "../repositories/fileRepository";
 
+// J'aurais dû mettre mes interfaces dans une couche models
 interface Lesson {
     lastName: string;
     firstName: string;
@@ -144,4 +145,4 @@ class LessonService {
     }
 }
 
-export default new LessonService();
+export default LessonService;

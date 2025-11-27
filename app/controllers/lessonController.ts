@@ -3,9 +3,11 @@ import LessonService from "../services/lessonService";
 
 class LessonController {
 
-    async findAllLessons(req: Request, res: Response) {
+    constructor(private lessonService: LessonService) {}
+
+    findAllLessons = async (req: Request, res: Response) => {
         try {
-            const lessons = await LessonService.findAllLessons();
+            const lessons = await this.lessonService.findAllLessons();
 
             res.status(200).json({
                 success: true,
@@ -21,7 +23,7 @@ class LessonController {
         }
     }
 
-    async findLessonByName(req: Request, res: Response) {
+    findLessonByName = async (req: Request, res: Response) => {
         const lessonName = req.params.name;
         if (!lessonName) {
             return res.status(400).json({
@@ -33,7 +35,7 @@ class LessonController {
         const student = { firstName: req.query.firstName as string, lastName: req.query.lastName as string };
 
         try {
-            const lesson = await LessonService.findLessonByName(lessonName, student);
+            const lesson = await this.lessonService.findLessonByName(lessonName, student);
 
             return res.status(200).json({
                 success: true,
@@ -50,7 +52,7 @@ class LessonController {
 
     }
 
-    async createLesson(req: Request, res: Response) {
+    createLesson = async (req: Request, res: Response) => {
         const lessonName = req.params.name;
         if (!lessonName) {
             return res.status(400).json({
@@ -62,7 +64,7 @@ class LessonController {
         const lessons = req.body;
         
         try {
-            const lesson = await LessonService.createLesson(lessonName, lessons);
+            const lesson = await this.lessonService.createLesson(lessonName, lessons);
 
             return res.status(201).json({
                 success: true,
@@ -79,4 +81,4 @@ class LessonController {
     }
 }
 
-export default new LessonController();
+export default new LessonController(new LessonService());
